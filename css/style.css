@@ -1,0 +1,237 @@
+/* ===== בסיס ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
+}
+
+body {
+    overflow: hidden;
+    background: #87CEEB;
+    font-family: Arial, sans-serif;
+}
+
+canvas {
+    display: block;
+}
+
+/* ===== מסך פתיחה ===== */
+#intro {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, #FF6FB7, #FFD166, #06D6A0, #118AB2);
+    background-size: 400% 400%;
+    animation: gradientShift 4s ease infinite;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    cursor: pointer;
+}
+
+/* ===== מסך ניצחון ===== */
+#win {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, #FF6FB7, #FFD166, #06D6A0);
+    background-size: 400% 400%;
+    animation: gradientShift 3s ease infinite;
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    cursor: pointer;
+}
+
+/* ===== אנימציית גרדיאנט ===== */
+@keyframes gradientShift {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* ===== טיפוגרפיה ===== */
+.t1 {
+    font-size: clamp(2rem, 8vw, 5rem);
+    color: #fff;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    animation: bounceIn 1s ease;
+}
+
+.t2 {
+    font-size: clamp(3rem, 12vw, 8rem);
+    color: #FFD700;
+    text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    animation: bounceIn 1s ease 0.3s both;
+}
+
+.t3 {
+    font-size: clamp(1.5rem, 5vw, 3rem);
+    color: #fff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    animation: bounceIn 1s ease 0.6s both;
+    margin-top: 10px;
+}
+
+.btn {
+    font-size: clamp(1.2rem, 4vw, 2rem);
+    color: #fff;
+    margin-top: 40px;
+    animation: pulse 1.5s infinite, bounceIn 1s ease 0.9s both;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 15px 40px;
+    border-radius: 50px;
+    border: 3px solid rgba(255, 255, 255, 0.5);
+}
+
+/* ===== אנימציות ===== */
+@keyframes bounceIn {
+    0%   { transform: scale(0); opacity: 0; }
+    60%  { transform: scale(1.2); }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.05); opacity: 0.8; }
+}
+
+/* ===== קונפטי ===== */
+.cf {
+    position: fixed;
+    border-radius: 2px;
+    animation: confettiFall linear infinite;
+    z-index: 999;
+}
+
+@keyframes confettiFall {
+    0%   { transform: translateY(-10vh) rotate(0); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(720deg); opacity: 0.7; }
+}
+
+/* ===== בלונים ===== */
+.bl {
+    position: fixed;
+    animation: balloonFloat linear infinite;
+    z-index: 998;
+}
+
+@keyframes balloonFloat {
+    0%   { transform: translateY(110vh); opacity: 1; }
+    100% { transform: translateY(-10vh); opacity: 0.8; }
+}
+
+/* ===== HUD - תצוגת ניקוד ===== */
+#hud {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 55px;
+    background: linear-gradient(180deg, rgba(255, 105, 180, 0.9), rgba(255, 105, 180, 0.6));
+    display: none;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 15px;
+    z-index: 500;
+}
+
+.hs {
+    font-size: clamp(1.2rem, 4vw, 1.8rem);
+    color: #fff;
+    font-weight: 700;
+}
+
+.hp {
+    flex: 1;
+    max-width: 250px;
+    height: 18px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 9px;
+    margin: 0 10px;
+    overflow: hidden;
+}
+
+.hpb {
+    height: 100%;
+    background: linear-gradient(90deg, #FFD700, #FFA500);
+    border-radius: 9px;
+    transition: width 0.3s;
+    width: 0%;
+}
+
+.hl {
+    font-size: clamp(1rem, 3vw, 1.4rem);
+    color: #FFD700;
+    font-weight: 700;
+}
+
+/* ===== הודעות עידוד ===== */
+#enc {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    font-size: clamp(2rem, 8vw, 4rem);
+    color: #FFD700;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+    z-index: 600;
+    pointer-events: none;
+}
+
+#enc.show {
+    animation: encouragePop 1.5s ease forwards;
+}
+
+@keyframes encouragePop {
+    0%   { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+    20%  { transform: translate(-50%, -50%) scale(1.3); opacity: 1; }
+    80%  { opacity: 1; }
+    100% { transform: translate(-50%, -60%) scale(0.8); opacity: 0; }
+}
+
+/* ===== ניקוד צף ===== */
+.fs {
+    position: fixed;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #FFD700;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    z-index: 550;
+    pointer-events: none;
+    animation: floatUp 1s ease forwards;
+}
+
+@keyframes floatUp {
+    0%   { opacity: 1; }
+    100% { transform: translateY(-50px); opacity: 0; }
+}
+
+/* ===== כפתורי מגע למובייל ===== */
+#mc {
+    position: fixed;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+    z-index: 700;
+}
+
+.mb {
+    width: 65px;
+    height: 65px;
+    background: rgba(255, 255, 255, 0.5);
+    border: 3px solid rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    font-size: 2rem;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    margin: 3px;
+}
