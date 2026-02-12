@@ -7,11 +7,13 @@
         var COLORS = ['#FF6FB7', '#FFD166', '#06D6A0', '#118AB2', '#EF476F', '#FFD700'];
 
         var LEVELS = [
-            { balloonsNeeded: 15, speed: 1.2, spawnRate: 1200, specialChance: 0.1 },
-            { balloonsNeeded: 20, speed: 1.8, spawnRate: 900, specialChance: 0.15 },
-            { balloonsNeeded: 25, speed: 2.3, spawnRate: 700, specialChance: 0.2 },
+            { balloonsNeeded: 12, speed: 1.0, spawnRate: 1300, specialChance: 0.1 },
+            { balloonsNeeded: 15, speed: 1.3, spawnRate: 1100, specialChance: 0.12 },
+            { balloonsNeeded: 18, speed: 1.6, spawnRate: 900, specialChance: 0.15 },
+            { balloonsNeeded: 20, speed: 2.0, spawnRate: 750, specialChance: 0.18 },
+            { balloonsNeeded: 25, speed: 2.4, spawnRate: 600, specialChance: 0.22 },
         ];
-        var TOTAL_BALLOONS = 60; // 15+20+25
+        var TOTAL_BALLOONS = 90; // 12+15+18+20+25
 
         var audioCtx = null;
         var score = 0;

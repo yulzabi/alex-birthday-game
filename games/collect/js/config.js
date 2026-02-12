@@ -6,8 +6,8 @@
 var Config = {
     // מבנה שלבים
     ITEMS_PER_LEVEL: 10,
-    TOTAL_LEVELS: 3,
-    TOTAL_ITEMS: 30, // ITEMS_PER_LEVEL * TOTAL_LEVELS
+    TOTAL_LEVELS: 5,
+    TOTAL_ITEMS: 50, // ITEMS_PER_LEVEL * TOTAL_LEVELS
 
     // סוגי פריטים לאיסוף
     ITEM_TYPES: [
@@ -28,6 +28,8 @@ var Config = {
         ['#87CEEB', '#E0F7FA', '#C8E6C9'], // שלב 1 - כחול-ירוק
         ['#DDA0DD', '#F8BBD0', '#FCE4EC'], // שלב 2 - ורוד
         ['#FFD700', '#FFF8E1', '#FFFDE7'], // שלב 3 - זהוב
+        ['#FF6FB7', '#FFB6C1', '#FFC0CB'], // שלב 4 - ורוד חם
+        ['#6C5CE7', '#A29BFE', '#DDD6FE'], // שלב 5 - סגול קסום
     ],
 
     // הודעות עידוד בעברית

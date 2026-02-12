@@ -79,6 +79,8 @@ body {
 .board.level-1 { grid-template-columns: repeat(4, 1fr); }
 .board.level-2 { grid-template-columns: repeat(4, 1fr); }
 .board.level-3 { grid-template-columns: repeat(4, 1fr); }
+.board.level-4 { grid-template-columns: repeat(5, 1fr); }
+.board.level-5 { grid-template-columns: repeat(6, 1fr); }
 
 /* ===== קלף ===== */
 .card {
