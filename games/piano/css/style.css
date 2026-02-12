@@ -1,0 +1,361 @@
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            min-height: 100vh;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #118AB2, #06D6A0, #FFD166);
+            background-size: 400% 400%;
+            animation: gradientShift 8s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%   { background-position: 0% 50%; }
+            50%  { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* ===== כפתור חזרה ===== */
+        .back-btn {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 3000;
+            background: rgba(255, 255, 255, 0.85);
+            color: #333;
+            text-decoration: none;
+            padding: 8px 18px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 700;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+            transition: transform 0.2s;
+        }
+
+        .back-btn:hover, .back-btn:active {
+            transform: scale(1.05);
+        }
+
+        /* ===== מסך פתיחה ===== */
+        #intro-screen {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, #118AB2, #6C5CE7, #FF6FB7);
+            background-size: 400% 400%;
+            animation: gradientShift 4s ease infinite;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            cursor: pointer;
+        }
+
+        #intro-screen .t1 {
+            font-size: clamp(2rem, 8vw, 4rem);
+            color: #fff;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+            animation: bounceIn 0.8s ease;
+        }
+
+        #intro-screen .t2 {
+            font-size: clamp(3rem, 12vw, 6rem);
+            margin: 10px 0;
+            animation: bounceIn 0.8s ease 0.2s both;
+        }
+
+        #intro-screen .t3 {
+            font-size: clamp(1.2rem, 4vw, 2rem);
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: bounceIn 0.8s ease 0.4s both;
+        }
+
+        #intro-screen .play-btn {
+            font-size: clamp(1.2rem, 4vw, 2rem);
+            color: #fff;
+            margin-top: 40px;
+            animation: pulse 1.5s infinite, bounceIn 0.8s ease 0.6s both;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px 40px;
+            border-radius: 50px;
+            border: 3px solid rgba(255, 255, 255, 0.5);
+        }
+
+        @keyframes bounceIn {
+            0%   { transform: scale(0); opacity: 0; }
+            60%  { transform: scale(1.15); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50%      { transform: scale(1.05); opacity: 0.8; }
+        }
+
+        /* ===== אזור המשחק ===== */
+        #game-area {
+            display: none;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        /* ===== כותרת ===== */
+        .header {
+            text-align: center;
+            padding: 12px 10px 5px;
+        }
+
+        .header h1 {
+            font-size: clamp(1.3rem, 5vw, 2.2rem);
+            color: #fff;
+            text-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+        }
+
+        /* ===== מצב משחק ===== */
+        .mode-switcher {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 8px 15px;
+            flex-wrap: wrap;
+        }
+
+        .mode-btn {
+            padding: 8px 20px;
+            border: 3px solid rgba(255,255,255,0.5);
+            border-radius: 25px;
+            background: rgba(255,255,255,0.2);
+            color: #fff;
+            font-size: clamp(0.85rem, 2.5vw, 1.1rem);
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .mode-btn.active {
+            background: rgba(255,255,255,0.85);
+            color: #333;
+            border-color: #FFD700;
+        }
+
+        .mode-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* ===== הודעה מרכזית ===== */
+        #message {
+            text-align: center;
+            font-size: clamp(1.1rem, 3.5vw, 1.6rem);
+            color: #FFD700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            font-weight: 700;
+            padding: 8px;
+            min-height: 40px;
+        }
+
+        /* ===== קלידים ===== */
+        .piano-container {
+            flex: 1;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding: 10px 5px 30px;
+        }
+
+        .piano {
+            display: flex;
+            gap: 4px;
+            justify-content: center;
+            max-width: 700px;
+            width: 100%;
+        }
+
+        .key {
+            flex: 1;
+            max-width: 85px;
+            min-width: 45px;
+            height: clamp(180px, 40vh, 320px);
+            border-radius: 0 0 15px 15px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            padding-bottom: 15px;
+            font-size: clamp(1.8rem, 6vw, 3rem);
+            transition: transform 0.1s, box-shadow 0.1s, filter 0.1s;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+            position: relative;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .key .key-label {
+            font-size: clamp(0.7rem, 2vw, 0.9rem);
+            margin-top: 8px;
+            font-weight: 700;
+            opacity: 0.7;
+        }
+
+        .key:active, .key.active {
+            transform: scale(0.95) translateY(4px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            filter: brightness(1.1);
+        }
+
+        .key.highlight {
+            animation: keyGlow 0.6s ease;
+        }
+
+        @keyframes keyGlow {
+            0%   { transform: scale(1); box-shadow: 0 6px 20px rgba(0,0,0,0.2); }
+            50%  { transform: scale(1.05); box-shadow: 0 0 30px rgba(255,215,0,0.6); }
+            100% { transform: scale(1); box-shadow: 0 6px 20px rgba(0,0,0,0.2); }
+        }
+
+        /* מקש הבא לנגינה - זוהר מהבהב */
+        .key.next-note {
+            animation: nextNotePulse 0.8s ease-in-out infinite;
+            z-index: 10;
+        }
+
+        @keyframes nextNotePulse {
+            0%   { box-shadow: 0 0 15px rgba(255,215,0,0.4), 0 6px 20px rgba(0,0,0,0.2); transform: scale(1); }
+            50%  { box-shadow: 0 0 35px rgba(255,215,0,0.9), 0 0 60px rgba(255,215,0,0.3); transform: scale(1.08); }
+            100% { box-shadow: 0 0 15px rgba(255,215,0,0.4), 0 6px 20px rgba(0,0,0,0.2); transform: scale(1); }
+        }
+
+        .key.next-note::after {
+            content: '👇';
+            position: absolute;
+            top: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5rem;
+            animation: arrowBounce 0.6s ease-in-out infinite;
+        }
+
+        @keyframes arrowBounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50%      { transform: translateX(-50%) translateY(6px); }
+        }
+
+        /* פס התקדמות שיר */
+        .song-progress {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            padding: 5px 20px;
+        }
+
+        .song-progress.visible {
+            display: flex;
+        }
+
+        .song-progress-bar {
+            flex: 1;
+            max-width: 300px;
+            height: 14px;
+            background: rgba(255,255,255,0.25);
+            border-radius: 7px;
+            overflow: hidden;
+        }
+
+        .song-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FFD700, #FF6FB7);
+            border-radius: 7px;
+            transition: width 0.3s;
+            width: 0%;
+        }
+
+        .song-progress-text {
+            color: #fff;
+            font-size: clamp(0.8rem, 2.5vw, 1rem);
+            font-weight: 700;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+
+        /* צבעי קלידים */
+        .key:nth-child(1) { background: linear-gradient(180deg, #FF6B6B, #EE5A24); }
+        .key:nth-child(2) { background: linear-gradient(180deg, #FFA502, #E67E22); }
+        .key:nth-child(3) { background: linear-gradient(180deg, #FFD700, #F9CA24); }
+        .key:nth-child(4) { background: linear-gradient(180deg, #2ED573, #05C46B); }
+        .key:nth-child(5) { background: linear-gradient(180deg, #1E90FF, #0984E3); }
+        .key:nth-child(6) { background: linear-gradient(180deg, #6C5CE7, #A55EEA); }
+        .key:nth-child(7) { background: linear-gradient(180deg, #FF6FB7, #FD79A8); }
+        .key:nth-child(8) { background: linear-gradient(180deg, #00CEC9, #00B894); }
+
+        /* ===== ניצוצות ===== */
+        .sparkle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 800;
+            animation: sparkleFade 0.8s ease forwards;
+        }
+
+        @keyframes sparkleFade {
+            0%   { transform: scale(0) rotate(0); opacity: 1; }
+            50%  { transform: scale(1.2) rotate(180deg); opacity: 0.8; }
+            100% { transform: scale(0) rotate(360deg); opacity: 0; }
+        }
+
+        /* ===== הודעת עידוד ===== */
+        #encourage {
+            position: fixed;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            font-size: clamp(2rem, 8vw, 4rem);
+            color: #FFD700;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+            z-index: 600;
+            pointer-events: none;
+        }
+
+        #encourage.show {
+            animation: encouragePop 1.5s ease forwards;
+        }
+
+        @keyframes encouragePop {
+            0%   { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+            20%  { transform: translate(-50%, -50%) scale(1.3); opacity: 1; }
+            80%  { opacity: 1; }
+            100% { transform: translate(-50%, -60%) scale(0.8); opacity: 0; }
+        }
+
+        /* ===== כפתורי שירים ===== */
+        .songs-container {
+            display: none;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            padding: 5px 15px;
+        }
+
+        .songs-container.visible {
+            display: flex;
+        }
+
+        .song-btn {
+            padding: 8px 16px;
+            border: 2px solid rgba(255,255,255,0.4);
+            border-radius: 20px;
+            background: rgba(255,255,255,0.15);
+            color: #fff;
+            font-size: clamp(0.8rem, 2.5vw, 1rem);
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .song-btn:hover, .song-btn.active {
+            background: rgba(255,255,255,0.8);
+            color: #333;
+        }
