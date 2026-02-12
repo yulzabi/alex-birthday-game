@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>🎈 פיצוץ בלונים - אלכס בת 5!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            min-height: 100vh;
+            overflow: hidden;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(180deg, #87CEEB 0%, #E0F7FA 50%, #90EE90 95%, #7CCD7C 100%);
+        }
+
+        /* ===== כפתור חזרה ===== */
+        .back-btn {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 3000;
+            background: rgba(255, 255, 255, 0.85);
+            color: #333;
+            text-decoration: none;
+            padding: 8px 18px;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 700;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+            transition: transform 0.2s;
+        }
+
+        .back-btn:hover, .back-btn:active {
+            transform: scale(1.05);
+        }
+
+        /* ===== מסך פתיחה ===== */
+        #intro-screen {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, #FFD166, #FF6FB7, #EF476F);
+            background-size: 400% 400%;
+            animation: gradientShift 4s ease infinite;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            cursor: pointer;
+        }
+
+        @keyframes gradientShift {
+            0%   { background-position: 0% 50%; }
+            50%  { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        #intro-screen .t1 {
+            font-size: clamp(2rem, 8vw, 4rem);
+            color: #fff;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+            animation: bounceIn 0.8s ease;
+        }
+
+        #intro-screen .t2 {
+            font-size: clamp(3rem, 12vw, 6rem);
+            margin: 10px 0;
+            animation: bounceIn 0.8s ease 0.2s both;
+        }
+
+        #intro-screen .t3 {
+            font-size: clamp(1.2rem, 4vw, 2rem);
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: bounceIn 0.8s ease 0.4s both;
+        }
+
+        #intro-screen .play-btn {
+            font-size: clamp(1.2rem, 4vw, 2rem);
+            color: #fff;
+            margin-top: 40px;
+            animation: pulse 1.5s infinite, bounceIn 0.8s ease 0.6s both;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px 40px;
+            border-radius: 50px;
+            border: 3px solid rgba(255, 255, 255, 0.5);
+        }
+
+        @keyframes bounceIn {
+            0%   { transform: scale(0); opacity: 0; }
+            60%  { transform: scale(1.15); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50%      { transform: scale(1.05); opacity: 0.8; }
+        }
+
+        /* ===== מסך ניצחון ===== */
+        #win-screen {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, #FFD700, #FF6FB7, #06D6A0);
+            background-size: 400% 400%;
+            animation: gradientShift 3s ease infinite;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            cursor: pointer;
+        }
+
+        #win-screen .t1 {
+            font-size: clamp(2rem, 8vw, 4rem);
+            color: #fff;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+            animation: bounceIn 0.8s ease;
+        }
+
+        #win-screen .t2 {
+            font-size: clamp(3rem, 12vw, 6rem);
+            animation: bounceIn 0.8s ease 0.2s both;
+        }
+
+        #win-screen .t3 {
+            font-size: clamp(1.2rem, 4vw, 2rem);
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: bounceIn 0.8s ease 0.4s both;
+        }
+
+        #win-screen .play-btn {
+            font-size: clamp(1.2rem, 4vw, 2rem);
+            color: #fff;
+            margin-top: 40px;
+            animation: pulse 1.5s infinite, bounceIn 0.8s ease 0.6s both;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px 40px;
+            border-radius: 50px;
+            border: 3px solid rgba(255, 255, 255, 0.5);
+        }
+
+        /* ===== HUD ===== */
+        #hud {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 55px;
+            background: linear-gradient(180deg, rgba(255, 165, 0, 0.9), rgba(255, 165, 0, 0.6));
+            display: none;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 15px;
+            z-index: 500;
+        }
+
+        .hud-score {
+            font-size: clamp(1.2rem, 4vw, 1.8rem);
+            color: #fff;
+            font-weight: 700;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .hud-level {
+            font-size: clamp(1rem, 3vw, 1.4rem);
+            color: #FFD700;
+            font-weight: 700;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
+        }
+
+        .hud-progress {
+            flex: 1;
+            max-width: 200px;
+            height: 18px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 9px;
+            margin: 0 10px;
+            overflow: hidden;
+        }
+
+        .hud-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #FFD700, #FF6FB7);
+            border-radius: 9px;
+            transition: width 0.3s;
+            width: 0%;
+        }
+
+        /* ===== בלון במשחק ===== */
+        .game-balloon {
+            position: fixed;
+            cursor: pointer;
+            transition: transform 0.1s;
+            z-index: 100;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .game-balloon:active {
+            transform: scale(1.1);
+        }
+
+        /* ===== אנימציית פיצוץ ===== */
+        .pop-effect {
+            position: fixed;
+            pointer-events: none;
+            z-index: 200;
+            animation: popAnim 0.6s ease forwards;
+        }
+
+        @keyframes popAnim {
+            0%   { transform: scale(1); opacity: 1; }
+            50%  { transform: scale(1.5); opacity: 0.7; }
+            100% { transform: scale(0.2); opacity: 0; }
+        }
+
+        /* ===== ניקוד צף ===== */
+        .float-score {
+            position: fixed;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: #FFD700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            z-index: 550;
+            pointer-events: none;
+            animation: floatUp 1s ease forwards;
+        }
+
+        @keyframes floatUp {
+            0%   { opacity: 1; transform: translateY(0); }
+            100% { transform: translateY(-60px); opacity: 0; }
+        }
+
+        /* ===== הודעת עידוד ===== */
+        #encourage {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            font-size: clamp(2rem, 8vw, 4rem);
+            color: #FFD700;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.3);
+            z-index: 600;
+            pointer-events: none;
+        }
+
+        #encourage.show {
+            animation: encouragePop 1.5s ease forwards;
+        }
+
+        @keyframes encouragePop {
+            0%   { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+            20%  { transform: translate(-50%, -50%) scale(1.3); opacity: 1; }
+            80%  { opacity: 1; }
+            100% { transform: translate(-50%, -60%) scale(0.8); opacity: 0; }
+        }
+
+        /* ===== קונפטי ===== */
+        .cf {
+            position: fixed;
+            border-radius: 2px;
+            animation: confettiFall linear infinite;
+            z-index: 1999;
+            pointer-events: none;
+        }
+
+        @keyframes confettiFall {
+            0%   { transform: translateY(-10vh) rotate(0); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(720deg); opacity: 0.7; }
+        }
+    </style>
+</head>
+<body>
+
+    <a href="../../index.html" class="back-btn">🏠 חזרה לתפריט</a>
+
+    <!-- מסך פתיחה -->
+    <div id="intro-screen">
+        <div class="t1">🎈 פיצוץ בלונים 🎈</div>
+        <div class="t2">💥🎈💥</div>
+        <div class="t3">פוצצי כמה שיותר בלונים!</div>
+        <div class="play-btn">👆 לחצי כדי לשחק! 👆</div>
+    </div>
+
+    <!-- מסך ניצחון -->
+    <div id="win-screen">
+        <div class="t1">🎉 כל הכבוד אלכס! 🎉</div>
+        <div class="t2">🏆👑🌟</div>
+        <div class="t3">פוצצת את כל הבלונים! 🎈💖</div>
+        <div class="play-btn">👆 שוב! 👆</div>
+    </div>
+
+    <!-- HUD -->
+    <div id="hud">
+        <div class="hud-score">🎈 <span id="score">0</span></div>
+        <div class="hud-progress"><div class="hud-progress-bar" id="progress-bar"></div></div>
+        <div class="hud-level" id="level-display">🌟 שלב 1</div>
+    </div>
+
+    <!-- הודעת עידוד -->
+    <div id="encourage"></div>
+
+    <script>
+    (function() {
+        "use strict";
+
+        var BALLOON_EMOJIS = ['🎈', '🟡', '🔴', '🔵', '🟢', '🟣', '🟠'];
+        var SPECIAL_EMOJIS = ['⭐', '👑', '💎', '🌟'];
+        var ENCOURAGEMENTS = ['!כל הכבוד 🌟', '!מדהים 🎉', '!כוכבת ✨', '!יופי 💖', '!סחטיין 🏆', '!מלכה 👑', '!וואו 🤩'];
+        var COLORS = ['#FF6FB7', '#FFD166', '#06D6A0', '#118AB2', '#EF476F', '#FFD700'];
+
+        var LEVELS = [
+            { balloonsNeeded: 15, speed: 1.2, spawnRate: 1200, specialChance: 0.1 },
+            { balloonsNeeded: 20, speed: 1.8, spawnRate: 900, specialChance: 0.15 },
+            { balloonsNeeded: 25, speed: 2.3, spawnRate: 700, specialChance: 0.2 },
+        ];
+        var TOTAL_BALLOONS = 60; // 15+20+25
+
+        var audioCtx = null;
+        var score = 0;
+        var popped = 0;
+        var totalPopped = 0;
+        var currentLevel = 0;
+        var gameRunning = false;
+        var spawnInterval = null;
+        var balloons = [];
+        var animFrame = null;
+        var lastEncTime = 0;
+
+        var introScreen = document.getElementById('intro-screen');
+        var winScreen = document.getElementById('win-screen');
+        var hud = document.getElementById('hud');
+        var scoreEl = document.getElementById('score');
+        var progressBar = document.getElementById('progress-bar');
+        var levelDisplay = document.getElementById('level-display');
+
+        function initAudio() {
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+
+        function playSound(type) {
+            if (!audioCtx) return;
+            var now = audioCtx.currentTime;
+
+            if (type === 'pop') {
+                var osc = audioCtx.createOscillator();
+                var gain = audioCtx.createGain();
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(800 + Math.random() * 400, now);
+                osc.frequency.exponentialRampToValueAtTime(200, now + 0.15);
+                gain.gain.setValueAtTime(0.15, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.15);
+                osc.start(now);
+                osc.stop(now + 0.15);
+            } else if (type === 'special') {
+                var notes = [784, 988, 1175];
+                notes.forEach(function(freq, i) {
+                    var o = audioCtx.createOscillator();
+                    var g = audioCtx.createGain();
+                    o.connect(g);
+                    g.connect(audioCtx.destination);
+                    o.type = 'sine';
+                    o.frequency.setValueAtTime(freq, now + i * 0.08);
+                    g.gain.setValueAtTime(0.12, now + i * 0.08);
+                    g.gain.exponentialRampToValueAtTime(0.001, now + i * 0.08 + 0.15);
+                    o.start(now + i * 0.08);
+                    o.stop(now + i * 0.08 + 0.15);
+                });
+            } else if (type === 'levelup') {
+                var notes2 = [523, 659, 784, 1047];
+                notes2.forEach(function(freq, i) {
+                    var o = audioCtx.createOscillator();
+                    var g = audioCtx.createGain();
+                    o.connect(g);
+                    g.connect(audioCtx.destination);
+                    o.type = 'sine';
+                    o.frequency.setValueAtTime(freq, now + i * 0.15);
+                    g.gain.setValueAtTime(0.12, now + i * 0.15);
+                    g.gain.exponentialRampToValueAtTime(0.001, now + i * 0.15 + 0.2);
+                    o.start(now + i * 0.15);
+                    o.stop(now + i * 0.15 + 0.2);
+                });
+            } else if (type === 'win') {
+                var notes3 = [523, 587, 659, 698, 784, 880, 988, 1047];
+                notes3.forEach(function(freq, i) {
+                    var o = audioCtx.createOscillator();
+                    var g = audioCtx.createGain();
+                    o.connect(g);
+                    g.connect(audioCtx.destination);
+                    o.type = 'sine';
+                    o.frequency.setValueAtTime(freq, now + i * 0.12);
+                    g.gain.setValueAtTime(0.12, now + i * 0.12);
+                    g.gain.exponentialRampToValueAtTime(0.001, now + i * 0.12 + 0.15);
+                    o.start(now + i * 0.12);
+                    o.stop(now + i * 0.12 + 0.15);
+                });
+            }
+        }
+
+        function showEncouragement() {
+            var now = Date.now();
+            if (now - lastEncTime < 2500) return;
+            lastEncTime = now;
+            var el = document.getElementById('encourage');
+            el.textContent = ENCOURAGEMENTS[Math.floor(Math.random() * ENCOURAGEMENTS.length)];
+            el.classList.remove('show');
+            void el.offsetWidth;
+            el.classList.add('show');
+        }
+
+        function showFloatScore(x, y, points) {
+            var el = document.createElement('div');
+            el.className = 'float-score';
+            el.textContent = '+' + points;
+            el.style.left = x + 'px';
+            el.style.top = y + 'px';
+            document.body.appendChild(el);
+            setTimeout(function() { el.remove(); }, 1000);
+        }
+
+        function showPopEffect(x, y, emoji) {
+            var el = document.createElement('div');
+            el.className = 'pop-effect';
+            el.textContent = '💥';
+            el.style.left = (x - 20) + 'px';
+            el.style.top = (y - 20) + 'px';
+            el.style.fontSize = '2.5rem';
+            document.body.appendChild(el);
+            setTimeout(function() { el.remove(); }, 600);
+        }
+
+        function updateHUD() {
+            scoreEl.textContent = score;
+            progressBar.style.width = (totalPopped / TOTAL_BALLOONS * 100) + '%';
+            levelDisplay.textContent = '🌟 שלב ' + (currentLevel + 1);
+        }
+
+        function addWinConfetti() {
+            for (var i = 0; i < 40; i++) {
+                var div = document.createElement('div');
+                div.className = 'cf';
+                div.style.left = Math.random() * 100 + '%';
+                div.style.background = COLORS[i % COLORS.length];
+                div.style.width = (Math.random() * 10 + 5) + 'px';
+                div.style.height = (Math.random() * 10 + 5) + 'px';
+                div.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                div.style.animationDelay = (Math.random() * 2) + 's';
+                winScreen.appendChild(div);
+            }
+        }
+
+        function spawnBalloon() {
+            if (!gameRunning) return;
+            var lvl = LEVELS[currentLevel];
+            var W = window.innerWidth;
+            var isSpecial = Math.random() < lvl.specialChance;
+
+            var emoji, points, size;
+            if (isSpecial) {
+                emoji = SPECIAL_EMOJIS[Math.floor(Math.random() * SPECIAL_EMOJIS.length)];
+                points = 20;
+                size = Math.random() * 15 + 55;
+            } else {
+                emoji = BALLOON_EMOJIS[Math.floor(Math.random() * BALLOON_EMOJIS.length)];
+                points = 10;
+                size = Math.random() * 15 + 40;
+            }
+
+            var el = document.createElement('div');
+            el.className = 'game-balloon';
+            el.textContent = emoji;
+            el.style.fontSize = size + 'px';
+            el.style.left = (Math.random() * (W - 80) + 20) + 'px';
+            el.style.top = (window.innerHeight + 50) + 'px';
+
+            var balloon = {
+                el: el,
+                x: parseFloat(el.style.left),
+                y: window.innerHeight + 50,
+                speed: lvl.speed * (0.7 + Math.random() * 0.6),
+                wobble: Math.random() * Math.PI * 2,
+                wobbleSpeed: 0.02 + Math.random() * 0.02,
+                wobbleAmount: 1 + Math.random() * 1.5,
+                points: points,
+                isSpecial: isSpecial,
+            };
+
+            function onPop(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                if (!gameRunning) return;
+
+                var rect = el.getBoundingClientRect();
+                var cx = rect.left + rect.width / 2;
+                var cy = rect.top + rect.height / 2;
+
+                showPopEffect(cx, cy, emoji);
+                showFloatScore(cx, cy - 20, balloon.points);
+
+                if (isSpecial) {
+                    playSound('special');
+                } else {
+                    playSound('pop');
+                }
+
+                score += balloon.points;
+                popped++;
+                totalPopped++;
+                updateHUD();
+
+                // הודעת עידוד כל 5 בלונים
+                if (popped % 5 === 0) {
+                    showEncouragement();
+                }
+
+                el.remove();
+                var idx = balloons.indexOf(balloon);
+                if (idx > -1) balloons.splice(idx, 1);
+
+                // בדיקת סיום שלב
+                if (popped >= lvl.balloonsNeeded) {
+                    if (currentLevel < LEVELS.length - 1) {
+                        currentLevel++;
+                        popped = 0;
+                        updateHUD();
+                        playSound('levelup');
+                        showEncouragement();
+                        clearInterval(spawnInterval);
+                        spawnInterval = setInterval(spawnBalloon, LEVELS[currentLevel].spawnRate);
+                    } else {
+                        // ניצחון!
+                        gameRunning = false;
+                        clearInterval(spawnInterval);
+                        playSound('win');
+                        setTimeout(function() {
+                            // הסר בלונים שנשארו
+                            balloons.forEach(function(b) { b.el.remove(); });
+                            balloons = [];
+                            hud.style.display = 'none';
+                            winScreen.style.display = 'flex';
+                            addWinConfetti();
+                        }, 600);
+                    }
+                }
+            }
+
+            el.addEventListener('click', onPop);
+            el.addEventListener('touchstart', onPop, { passive: false });
+
+            document.body.appendChild(el);
+            balloons.push(balloon);
+        }
+
+        function updateBalloons() {
+            if (!gameRunning) return;
+
+            for (var i = balloons.length - 1; i >= 0; i--) {
+                var b = balloons[i];
+                b.y -= b.speed;
+                b.wobble += b.wobbleSpeed;
+                var wobbleX = Math.sin(b.wobble) * b.wobbleAmount;
+
+                b.el.style.top = b.y + 'px';
+                b.el.style.transform = 'translateX(' + wobbleX + 'px)';
+
+                // הסר בלונים שיצאו מהמסך למעלה
+                if (b.y < -80) {
+                    b.el.remove();
+                    balloons.splice(i, 1);
+                }
+            }
+
+            animFrame = requestAnimationFrame(updateBalloons);
+        }
+
+        function startGame() {
+            initAudio();
+            introScreen.style.display = 'none';
+            winScreen.style.display = 'none';
+            hud.style.display = 'flex';
+
+            // ניקוי בלונים ישנים
+            balloons.forEach(function(b) { b.el.remove(); });
+            balloons = [];
+
+            score = 0;
+            popped = 0;
+            totalPopped = 0;
+            currentLevel = 0;
+            gameRunning = true;
+            updateHUD();
+
+            clearInterval(spawnInterval);
+            spawnInterval = setInterval(spawnBalloon, LEVELS[currentLevel].spawnRate);
+
+            if (animFrame) cancelAnimationFrame(animFrame);
+            updateBalloons();
+        }
+
+        introScreen.onclick = startGame;
+        winScreen.onclick = startGame;
+    })();
+    </script>
+</body>
+</html>

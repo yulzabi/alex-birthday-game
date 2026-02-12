@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>🎁 איסוף ממתקים - אלכס בת 5!</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- כפתור חזרה לתפריט -->
+    <a href="../../index.html" class="back-btn">🏠 חזרה לתפריט</a>
+
+    <!-- מסך פתיחה -->
+    <div id="intro">
+        <div class="t1">🎁 איסוף ממתקים 🎁</div>
+        <div class="t2">✨ אלכס ✨</div>
+        <div class="t3">🎈 אספי את כל המתנות! 🎈</div>
+        <div class="btn">👆 לחצי כדי לשחק! 👆</div>
+    </div>
+
+    <!-- מסך ניצחון -->
+    <div id="win">
+        <div class="t1">🎉 כל הכבוד אלכס! 🎉</div>
+        <div class="t2">🏆👑🌟</div>
+        <div class="t3">את כוכבת על! 💖</div>
+        <div class="btn">👆 שוב! 👆</div>
+    </div>
+
+    <!-- HUD - תצוגת ניקוד -->
+    <div id="hud">
+        <div class="hs">⭐ <span id="sc">0</span></div>
+        <div class="hp"><div class="hpb" id="pb"></div></div>
+        <div class="hl" id="lv">🎁 שלב 1</div>
+    </div>
+
+    <!-- הודעות עידוד -->
+    <div id="enc"></div>
+
+    <!-- אזור המשחק -->
+    <canvas id="cv"></canvas>
+
+    <!-- כפתורי מגע למובייל -->
+    <div id="mc">
+        <div style="text-align:center">
+            <div class="mb" id="bu">⬆️</div>
+        </div>
+        <div>
+            <div class="mb" id="bl">⬅️</div>
+            <div class="mb" id="bd">⬇️</div>
+            <div class="mb" id="br">➡️</div>
+        </div>
+    </div>
+
+    <script src="js/audio.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/intro.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/renderer.js"></script>
+    <script src="js/controls.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

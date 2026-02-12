@@ -3,58 +3,259 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>🎂 יום הולדת שמח אלכס!</title>
-    <link rel="stylesheet" href="css/style.css">
+    <title>🎂 יום הולדת שמח אלכס! בת 5!</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #FF6FB7, #FFD166, #06D6A0, #118AB2);
+            background-size: 400% 400%;
+            animation: gradientShift 6s ease infinite;
+            font-family: Arial, sans-serif;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientShift {
+            0%   { background-position: 0% 50%; }
+            50%  { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* ===== כותרת ===== */
+        .header {
+            text-align: center;
+            padding: 30px 20px 10px;
+        }
+
+        .header h1 {
+            font-size: clamp(2rem, 7vw, 4rem);
+            color: #fff;
+            text-shadow: 3px 3px 8px rgba(0,0,0,0.3);
+            animation: bounceIn 0.8s ease;
+        }
+
+        .header .name {
+            font-size: clamp(2.5rem, 10vw, 6rem);
+            color: #FFD700;
+            text-shadow: 4px 4px 10px rgba(0,0,0,0.3);
+            animation: bounceIn 0.8s ease 0.2s both;
+        }
+
+        .header .age {
+            font-size: clamp(1.5rem, 5vw, 2.5rem);
+            color: #fff;
+            text-shadow: 2px 2px 6px rgba(0,0,0,0.3);
+            animation: bounceIn 0.8s ease 0.4s both;
+            margin-top: 5px;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: clamp(1.1rem, 3.5vw, 1.8rem);
+            color: rgba(255,255,255,0.9);
+            margin: 15px 0 25px;
+            animation: bounceIn 0.8s ease 0.6s both;
+        }
+
+        @keyframes bounceIn {
+            0%   { transform: scale(0); opacity: 0; }
+            60%  { transform: scale(1.15); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* ===== גריד משחקים ===== */
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 0 20px 40px;
+        }
+
+        @media (max-width: 500px) {
+            .games-grid {
+                grid-template-columns: 1fr;
+                max-width: 350px;
+            }
+        }
+
+        /* ===== כרטיס משחק ===== */
+        .game-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.92);
+            border-radius: 25px;
+            padding: 25px 15px;
+            text-decoration: none;
+            color: #333;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            cursor: pointer;
+            animation: cardIn 0.6s ease both;
+            border: 4px solid transparent;
+            min-height: 200px;
+        }
+
+        .game-card:nth-child(1) { animation-delay: 0.5s; border-color: #FF6FB7; }
+        .game-card:nth-child(2) { animation-delay: 0.65s; border-color: #06D6A0; }
+        .game-card:nth-child(3) { animation-delay: 0.8s; border-color: #FFD166; }
+        .game-card:nth-child(4) { animation-delay: 0.95s; border-color: #118AB2; }
+
+        .game-card:hover, .game-card:active {
+            transform: scale(1.06) translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.25);
+        }
+
+        @keyframes cardIn {
+            0%   { transform: scale(0) rotate(-5deg); opacity: 0; }
+            60%  { transform: scale(1.08) rotate(1deg); }
+            100% { transform: scale(1) rotate(0); opacity: 1; }
+        }
+
+        .game-card .emoji {
+            font-size: clamp(3.5rem, 12vw, 5.5rem);
+            margin-bottom: 10px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .game-card:nth-child(1) .emoji { animation-delay: 0s; }
+        .game-card:nth-child(2) .emoji { animation-delay: 0.5s; }
+        .game-card:nth-child(3) .emoji { animation-delay: 1s; }
+        .game-card:nth-child(4) .emoji { animation-delay: 1.5s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50%      { transform: translateY(-10px); }
+        }
+
+        .game-card .title {
+            font-size: clamp(1.2rem, 4vw, 1.7rem);
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .game-card .desc {
+            font-size: clamp(0.8rem, 2.5vw, 1rem);
+            color: #777;
+            text-align: center;
+        }
+
+        .game-card:nth-child(1) .title { color: #FF6FB7; }
+        .game-card:nth-child(2) .title { color: #06A07A; }
+        .game-card:nth-child(3) .title { color: #E8A800; }
+        .game-card:nth-child(4) .title { color: #118AB2; }
+
+        /* ===== קונפטי ===== */
+        .confetti {
+            position: fixed;
+            border-radius: 3px;
+            animation: confettiFall linear infinite;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        @keyframes confettiFall {
+            0%   { transform: translateY(-10vh) rotate(0); opacity: 1; }
+            100% { transform: translateY(110vh) rotate(720deg); opacity: 0.6; }
+        }
+
+        /* ===== בלונים ===== */
+        .balloon {
+            position: fixed;
+            animation: balloonFloat linear infinite;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        @keyframes balloonFloat {
+            0%   { transform: translateY(110vh) rotate(0); opacity: 0.9; }
+            100% { transform: translateY(-10vh) rotate(15deg); opacity: 0.7; }
+        }
+
+        /* ===== פוטר ===== */
+        .footer {
+            text-align: center;
+            padding: 15px;
+            color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+        }
+    </style>
 </head>
 <body>
 
-    <!-- מסך פתיחה -->
-    <div id="intro">
-        <div class="t1">🎂 יום הולדת שמח 🎂</div>
-        <div class="t2">✨ אלכס ✨</div>
-        <div class="t3">🎈 בת 5! 🎈</div>
-        <div class="btn">👆 לחצי כדי לשחק! 👆</div>
+    <div class="header">
+        <h1>🎂 יום הולדת שמח 🎂</h1>
+        <div class="name">✨ אלכס ✨</div>
+        <div class="age">🎈 בת 5! 🎈</div>
     </div>
 
-    <!-- מסך ניצחון -->
-    <div id="win">
-        <div class="t1">🎉 כל הכבוד אלכס! 🎉</div>
-        <div class="t2">🏆👑🌟</div>
-        <div class="t3">את כוכבת על! 💖 יום הולדת שמח! 🎂</div>
-        <div class="btn">👆 שוב! 👆</div>
+    <div class="subtitle">👇 בחרי משחק! 👇</div>
+
+    <div class="games-grid">
+        <a href="games/collect/index.html" class="game-card">
+            <div class="emoji">🎁</div>
+            <div class="title">איסוף ממתקים</div>
+            <div class="desc">אספי כוכבים, מתנות ועוגות!</div>
+        </a>
+
+        <a href="games/memory/index.html" class="game-card">
+            <div class="emoji">🧩</div>
+            <div class="title">משחק זיכרון</div>
+            <div class="desc">מצאי את הזוגות החבויים!</div>
+        </a>
+
+        <a href="games/balloons/index.html" class="game-card">
+            <div class="emoji">🎈</div>
+            <div class="title">פיצוץ בלונים</div>
+            <div class="desc">פוצצי כמה שיותר בלונים!</div>
+        </a>
+
+        <a href="games/piano/index.html" class="game-card">
+            <div class="emoji">🎵</div>
+            <div class="title">פסנתר קסמים</div>
+            <div class="desc">נגני מוזיקה יפה!</div>
+        </a>
     </div>
 
-    <!-- HUD - תצוגת ניקוד -->
-    <div id="hud">
-        <div class="hs">⭐ <span id="sc">0</span></div>
-        <div class="hp"><div class="hpb" id="pb"></div></div>
-        <div class="hl" id="lv">🎁 שלב 1</div>
-    </div>
+    <div class="footer">💖 באהבה לאלכס 💖</div>
 
-    <!-- הודעות עידוד -->
-    <div id="enc"></div>
+    <script>
+        // קונפטי
+        var colors = ['#FF6FB7', '#FFD166', '#06D6A0', '#118AB2', '#EF476F', '#FFD700'];
+        for (var i = 0; i < 25; i++) {
+            var c = document.createElement('div');
+            c.className = 'confetti';
+            c.style.left = Math.random() * 100 + '%';
+            c.style.background = colors[i % colors.length];
+            c.style.width = (Math.random() * 10 + 5) + 'px';
+            c.style.height = (Math.random() * 10 + 5) + 'px';
+            c.style.animationDuration = (Math.random() * 4 + 3) + 's';
+            c.style.animationDelay = (Math.random() * 4) + 's';
+            document.body.appendChild(c);
+        }
 
-    <!-- אזור המשחק -->
-    <canvas id="cv"></canvas>
-
-    <!-- כפתורי מגע למובייל -->
-    <div id="mc">
-        <div style="text-align:center">
-            <div class="mb" id="bu">⬆️</div>
-        </div>
-        <div>
-            <div class="mb" id="bl">⬅️</div>
-            <div class="mb" id="bd">⬇️</div>
-            <div class="mb" id="br">➡️</div>
-        </div>
-    </div>
-
-    <script src="js/audio.js"></script>
-    <script src="js/config.js"></script>
-    <script src="js/intro.js"></script>
-    <script src="js/game.js"></script>
-    <script src="js/renderer.js"></script>
-    <script src="js/controls.js"></script>
-    <script src="js/main.js"></script>
+        // בלונים
+        var emojis = ['🎈', '💖', '⭐', '🎁', '🎂', '🦋'];
+        for (var j = 0; j < 8; j++) {
+            var b = document.createElement('div');
+            b.className = 'balloon';
+            b.textContent = emojis[j % emojis.length];
+            b.style.left = Math.random() * 90 + '%';
+            b.style.fontSize = (Math.random() * 20 + 25) + 'px';
+            b.style.animationDuration = (Math.random() * 6 + 5) + 's';
+            b.style.animationDelay = (Math.random() * 6) + 's';
+            document.body.appendChild(b);
+        }
+    </script>
 </body>
 </html>
