@@ -4,6 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>🎂 יום הולדת שמח אלכס! בת 5!</title>
+
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#FF6FB7">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="אלכס 🎂">
+    <link rel="apple-touch-icon" href="icons/icon-152.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="icons/icon-192.png">
+    <link rel="apple-touch-icon" sizes="512x512" href="icons/icon-512.png">
     <style>
         * {
             margin: 0;
@@ -255,6 +266,15 @@
             b.style.animationDuration = (Math.random() * 6 + 5) + 's';
             b.style.animationDelay = (Math.random() * 6) + 's';
             document.body.appendChild(b);
+        }
+    </script>
+
+    <!-- Service Worker Registration -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('./service-worker.js')
+                .then(function(reg) { console.log('SW registered', reg.scope); })
+                .catch(function(err) { console.log('SW failed', err); });
         }
     </script>
 </body>
