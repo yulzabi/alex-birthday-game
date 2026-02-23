@@ -15,6 +15,7 @@ var Config = {
         { image: 'images/sister_mila.jpeg', name: 'מילה', points: 25, isPhoto: true },
         { image: 'images/sister_emanuelle.jpeg', name: 'עמנואל', points: 25, isPhoto: true },
         { image: 'images/papa_yehonatan.jpeg', name: 'אבא', points: 30, isPhoto: true },
+        { image: 'images/mama_mor.jpeg', name: 'אמא', points: 30, isPhoto: true },
         // אימוג'ים רגילים
         { emoji: '🎁', points: 10 },  // מתנה
         { emoji: '⭐', points: 5 },   // כוכב
@@ -63,5 +64,5 @@ var Config = {
     RAINBOW: ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'],
 
     // צבעי מסגרת לתמונות משפחה
-    PHOTO_BORDER_COLORS: ['#FF69B4', '#FFD700', '#06D6A0'],
+    PHOTO_BORDER_COLORS: ['#FF69B4', '#FFD700', '#06D6A0', '#E040FB'],
 };

@@ -38,10 +38,7 @@
         hudEl.style.display = 'flex';
         if (backBtn) backBtn.style.display = 'block';
 
-        // הצגת כפתורי מגע במכשירי מגע
-        if ('ontouchstart' in window) {
-            mcEl.style.display = 'block';
-        }
+        // כפתורי מגע מוסתרים - במקומם יש גרירת מגע ישירה על הקנבס
 
         Game.init();
     }
