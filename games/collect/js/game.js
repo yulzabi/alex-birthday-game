@@ -38,6 +38,31 @@ var Game = (function () {
     };
     playerImg.src = 'images/alex.jpg';
 
+    // טעינה מראש של תמונות משפחה
+    var familyImages = {};
+    (function preloadFamilyPhotos() {
+        for (var i = 0; i < Config.ITEM_TYPES.length; i++) {
+            var type = Config.ITEM_TYPES[i];
+            if (type.isPhoto && type.image) {
+                var img = new Image();
+                img.src = type.image;
+                familyImages[type.image] = { img: img, loaded: false };
+                (function(key) {
+                    familyImages[key].img.onload = function() {
+                        familyImages[key].loaded = true;
+                    };
+                })(type.image);
+            }
+        }
+    })();
+
+    /** בדיקה אם תמונת משפחה טעונה */
+    function getFamilyImage(imageSrc) {
+        var entry = familyImages[imageSrc];
+        if (entry && entry.loaded) return entry.img;
+        return null;
+    }
+
     // רשימות אובייקטים
     var items = [];
     var clouds = [];
@@ -99,8 +124,30 @@ var Game = (function () {
         var margin = 60;
         var hudHeight = 80;
 
+        // הפרד תמונות משפחה מאימוג'ים
+        var photoTypes = [];
+        var emojiTypes = [];
+        for (var t = 0; t < Config.ITEM_TYPES.length; t++) {
+            if (Config.ITEM_TYPES[t].isPhoto) {
+                photoTypes.push(Config.ITEM_TYPES[t]);
+            } else {
+                emojiTypes.push(Config.ITEM_TYPES[t]);
+            }
+        }
+
+        // כל בן משפחה מופיע בדיוק פעם אחת בכל שלב
+        var familySlots = photoTypes.slice(); // עותק של כל בני המשפחה
+
         for (var i = 0; i < Config.ITEMS_PER_LEVEL; i++) {
-            var type = Config.ITEM_TYPES[Math.floor(Math.random() * Config.ITEM_TYPES.length)];
+            var type;
+            if (i < familySlots.length) {
+                // הפריטים הראשונים = בני משפחה (אחד מכל)
+                type = familySlots[i];
+            } else {
+                // השאר = אימוג'ים רנדומליים
+                type = emojiTypes[Math.floor(Math.random() * emojiTypes.length)];
+            }
+
             var x, y, overlap, attempts = 0;
 
             do {
@@ -123,7 +170,7 @@ var Game = (function () {
                 x: x,
                 y: y,
                 type: type,
-                size: Math.random() * 10 + 28,
+                size: type.isPhoto ? 42 : (Math.random() * 10 + 28),
                 bobOffset: Math.random() * Math.PI * 2,
                 bobSpeed: Math.random() * 0.02 + 0.02,
                 collected: false,
@@ -141,14 +188,23 @@ var Game = (function () {
     }
 
     /** הצגת הודעת עידוד */
-    function showEncouragement() {
+    function showEncouragement(familyName) {
         var now = Date.now();
         if (now - lastEncouragement < 2500) return;
         lastEncouragement = now;
 
         var el = document.getElementById('enc');
-        var msgs = Config.ENCOURAGEMENTS;
-        el.textContent = msgs[Math.floor(Math.random() * msgs.length)];
+        var msg;
+
+        if (familyName && Config.FAMILY_ENCOURAGEMENTS) {
+            var msgs = Config.FAMILY_ENCOURAGEMENTS;
+            msg = msgs[Math.floor(Math.random() * msgs.length)].replace('{name}', familyName);
+        } else {
+            var msgs2 = Config.ENCOURAGEMENTS;
+            msg = msgs2[Math.floor(Math.random() * msgs2.length)];
+        }
+
+        el.textContent = msg;
         el.classList.remove('show');
         void el.offsetWidth; // reflow
         el.classList.add('show');
@@ -218,21 +274,24 @@ var Game = (function () {
                 AudioManager.play('collect');
                 showFloatScore(item.x, item.y - 25, item.type.points);
 
-                // ניצוצות
-                for (var s = 0; s < 6; s++) {
+                // ניצוצות - יותר לתמונות משפחה
+                var sparkCount = item.type.isPhoto ? 12 : 6;
+                for (var s = 0; s < sparkCount; s++) {
                     sparks.push({
                         x: item.x,
                         y: item.y,
-                        vx: (Math.random() - 0.5) * 5,
-                        vy: (Math.random() - 0.5) * 5,
+                        vx: (Math.random() - 0.5) * (item.type.isPhoto ? 8 : 5),
+                        vy: (Math.random() - 0.5) * (item.type.isPhoto ? 8 : 5),
                         life: 1,
                         color: Config.COLORS[s % Config.COLORS.length],
                         size: Math.random() * 4 + 2,
                     });
                 }
 
-                // הודעת עידוד כל 3 פריטים
-                if (state.itemsCollected % 3 === 0) {
+                // הודעת עידוד - מיידית לתמונות משפחה, כל 3 לאימוג'ים
+                if (item.type.isPhoto) {
+                    showEncouragement(item.type.name);
+                } else if (state.itemsCollected % 3 === 0) {
                     showEncouragement();
                 }
 
@@ -288,6 +347,7 @@ var Game = (function () {
         init: init,
         update: update,
         setSize: setSize,
+        getFamilyImage: getFamilyImage,
         getItems: function () { return items; },
         getClouds: function () { return clouds; },
         getSparks: function () { return sparks; },

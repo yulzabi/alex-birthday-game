@@ -70,6 +70,46 @@ var Renderer = (function () {
         ctx.globalAlpha = 1;
     }
 
+    /** ציור תמונה עגולה */
+    function drawCircularImage(img, x, y, size, borderColor, glowAmount) {
+        var radius = size / 2;
+
+        ctx.save();
+        ctx.translate(x, y);
+
+        // זוהר
+        if (glowAmount) {
+            ctx.shadowColor = borderColor || '#FFD700';
+            ctx.shadowBlur = glowAmount;
+        }
+
+        // ציור התמונה בצורת עיגול
+        ctx.beginPath();
+        ctx.arc(0, 0, radius, 0, Math.PI * 2);
+        ctx.closePath();
+        ctx.clip();
+        ctx.drawImage(img, -radius, -radius, size, size);
+
+        ctx.restore();
+
+        // מסגרת צבעונית
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.strokeStyle = borderColor || '#FFD700';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.arc(0, 0, radius, 0, Math.PI * 2);
+        ctx.stroke();
+
+        // מסגרת זוהרת חיצונית
+        ctx.strokeStyle = (borderColor || '#FFD700') + '66';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(0, 0, radius + 3, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.restore();
+    }
+
     /** ציור פריטים לאיסוף */
     function drawItems(items) {
         for (var i = 0; i < items.length; i++) {
@@ -82,14 +122,46 @@ var Renderer = (function () {
             ctx.scale(scale, scale);
             ctx.globalAlpha = scale;
 
-            // זוהר
-            ctx.shadowColor = '#FFD700';
-            ctx.shadowBlur = 12;
-            ctx.font = item.size + 'px Arial';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.fillText(item.type.emoji, 0, 0);
-            ctx.shadowBlur = 0;
+            if (item.type.isPhoto) {
+                // ציור תמונת משפחה עגולה
+                var familyImg = Game.getFamilyImage(item.type.image);
+                if (familyImg) {
+                    var borderColorIndex = 0;
+                    for (var ci = 0; ci < Config.ITEM_TYPES.length; ci++) {
+                        if (Config.ITEM_TYPES[ci] === item.type) {
+                            borderColorIndex = ci;
+                            break;
+                        }
+                    }
+                    var borderColor = Config.PHOTO_BORDER_COLORS[borderColorIndex % Config.PHOTO_BORDER_COLORS.length];
+                    drawCircularImage(familyImg, 0, 0, item.size, borderColor, 15);
+
+                    // שם מתחת לתמונה
+                    ctx.fillStyle = '#fff';
+                    ctx.strokeStyle = 'rgba(0,0,0,0.5)';
+                    ctx.lineWidth = 2;
+                    ctx.font = 'bold 11px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'top';
+                    ctx.strokeText(item.type.name, 0, item.size / 2 + 4);
+                    ctx.fillText(item.type.name, 0, item.size / 2 + 4);
+                } else {
+                    // תמונה לא נטענה - fallback לאימוג'י
+                    ctx.font = item.size + 'px Arial';
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText('👤', 0, 0);
+                }
+            } else {
+                // ציור אימוג'י רגיל
+                ctx.shadowColor = '#FFD700';
+                ctx.shadowBlur = 12;
+                ctx.font = item.size + 'px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(item.type.emoji, 0, 0);
+                ctx.shadowBlur = 0;
+            }
 
             ctx.restore();
         }

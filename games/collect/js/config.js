@@ -9,8 +9,13 @@ var Config = {
     TOTAL_LEVELS: 5,
     TOTAL_ITEMS: 50, // ITEMS_PER_LEVEL * TOTAL_LEVELS
 
-    // סוגי פריטים לאיסוף
+    // סוגי פריטים לאיסוף - תמונות משפחה + אימוג'ים
     ITEM_TYPES: [
+        // תמונות משפחה - ניקוד גבוה!
+        { image: 'images/sister_mila.jpeg', name: 'מילה', points: 25, isPhoto: true },
+        { image: 'images/sister_emanuelle.jpeg', name: 'עמנואל', points: 25, isPhoto: true },
+        { image: 'images/papa_yehonatan.jpeg', name: 'אבא', points: 30, isPhoto: true },
+        // אימוג'ים רגילים
         { emoji: '🎁', points: 10 },  // מתנה
         { emoji: '⭐', points: 5 },   // כוכב
         { emoji: '🎂', points: 20 },  // עוגה
@@ -44,9 +49,19 @@ var Config = {
         '!מעולה 🎈',
     ],
 
+    // הודעות עידוד לתמונות משפחה
+    FAMILY_ENCOURAGEMENTS: [
+        '!מצאת את {name} 💖',
+        '!{name} אוהב/ת אותך 🥰',
+        '!יש {name} 🎉',
+    ],
+
     // צבעים לקונפטי וניצוצות
     COLORS: ['#FF6FB7', '#FFD166', '#06D6A0', '#118AB2', '#EF476F', '#FFD700'],
 
     // צבעי קשת
     RAINBOW: ['red', 'orange', 'yellow', 'green', 'blue', 'indigo', 'violet'],
+
+    // צבעי מסגרת לתמונות משפחה
+    PHOTO_BORDER_COLORS: ['#FF69B4', '#FFD700', '#06D6A0'],
 };

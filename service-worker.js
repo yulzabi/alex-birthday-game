@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'alex-birthday-v1';
+const CACHE_VERSION = 'alex-birthday-v2';
 const ASSETS = [
   './',
   './index.html',
@@ -22,6 +22,12 @@ const ASSETS = [
   './games/collect/js/main.js',
   './games/collect/js/renderer.js',
   './games/collect/images/alex.jpg',
+  './games/collect/images/sister_mila.jpeg',
+  './games/collect/images/sister_emanuelle.jpeg',
+  './games/collect/images/papa_yehonatan.jpeg',
+  './images/sister_mila.jpeg',
+  './images/sister_emanuelle.jpeg',
+  './images/papa_yehonatan.jpeg',
   './games/memory/index.html',
   './games/memory/css/style.css',
   './games/memory/js/game.js',
