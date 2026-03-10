@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'alex-birthday-v4';
+const CACHE_VERSION = 'alex-birthday-v5';
 const ASSETS = [
   './',
   './index.html',
@@ -41,6 +41,9 @@ const ASSETS = [
   './games/piano/js/game.js',
   './games/differences/index.html',
   './games/differences/css/style.css',
+  './games/differences/js/audio.js',
+  './games/differences/js/draw.js',
+  './games/differences/js/scenes.js',
   './games/differences/js/game.js',
   './icons/icon-192.png',
   './icons/icon-512.png'
