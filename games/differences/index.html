@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>🔍 מצא את ההבדלים - אלכס בת 5!</title>
+    <meta name="theme-color" content="#FF6FB7">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <a href="../../index.html" class="back-btn">🏠 חזרה לתפריט</a>
+
+    <!-- מסך פתיחה -->
+    <div id="intro-screen">
+        <div class="t1">🔍 מצאי את ההבדלים 🔍</div>
+        <div class="t2">🖼️✨🖼️</div>
+        <div class="t3">!מצאי מה שונה בין שתי התמונות</div>
+        <div class="mode-buttons">
+            <div class="mode-btn" id="mode-relax">😊 בלי זמן</div>
+            <div class="mode-btn" id="mode-timed">⏱️ עם זמן</div>
+        </div>
+    </div>
+
+    <!-- מסך ניצחון -->
+    <div id="win-screen">
+        <div class="t1">🎉 כל הכבוד אלכס! 🎉</div>
+        <div class="t2">🏆👑🌟</div>
+        <div class="t3">!עיניים חדות 👀💖</div>
+        <div class="play-btn">👆 שוב! 👆</div>
+    </div>
+
+    <!-- מסך נגמר הזמן -->
+    <div id="timeout-screen">
+        <div class="t1">😅 הזמן נגמר!</div>
+        <div class="t2">⏱️</div>
+        <div class="t3">!לא נורא, ננסה שוב</div>
+        <div class="play-btn">👆 ננסה שוב! 👆</div>
+    </div>
+
+    <!-- מסך יותר מדי טעויות -->
+    <div id="mistakes-screen">
+        <div class="t1">😅 יותר מדי טעויות!</div>
+        <div class="t2">🔍</div>
+        <div class="t3">!ננסה להסתכל יותר בזהירות</div>
+        <div class="play-btn">👆 ננסה שוב! 👆</div>
+    </div>
+
+    <!-- הודעת עידוד -->
+    <div id="encourage"></div>
+    <div id="level-msg"></div>
+
+    <!-- המשחק -->
+    <div id="game-area" style="display:none;">
+        <div class="header">
+            <h1>🔍 מצאי את ההבדלים 🔍</h1>
+        </div>
+        <div class="hud">
+            <span>⭐ <span id="diffs-found">0</span>/<span id="diffs-total">3</span></span>
+            <span>🎁 שלב: <span id="level">1</span>/5</span>
+            <span>❌ <span id="mistakes-count">0</span>/<span id="max-mistakes">6</span></span>
+            <span id="timer-display" style="display:none;">⏱️ <span id="timer">30</span></span>
+            <button id="hint-btn" class="hint-btn">💡 <span id="hints-left">3</span></button>
+        </div>
+        <div class="pictures-container">
+            <div class="picture-wrapper">
+                <div class="picture-label">📷 מקור</div>
+                <div class="canvas-wrap">
+                    <canvas id="canvas-original" width="380" height="300"></canvas>
+                </div>
+            </div>
+            <div class="picture-wrapper">
+                <div class="picture-label">🔍 מצאי את ההבדלים!</div>
+                <div class="canvas-wrap">
+                    <canvas id="canvas-different" width="380" height="300"></canvas>
+                    <canvas id="canvas-overlay" width="380" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/game.js"></script>
+</body>
+</html>
